@@ -1,3 +1,4 @@
+//src/controllers/authenticate-functions/verifyUser.ts
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { getUserPassword, getUserId } from '../../services';
@@ -11,7 +12,7 @@ if (!JWT_SECRET) {
 
 const BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS || '8');
 
-export const verifyUser = async (req: Request, res: Response): Promise<void>  => {
+export const loginUser = async (req: Request, res: Response): Promise<void>  => {
     try {
         const { username, password } = req.body;
 
@@ -33,11 +34,13 @@ export const verifyUser = async (req: Request, res: Response): Promise<void>  =>
 
         // Gửi token trong cookie
         res.cookie('token', token, {
-            httpOnly: true, // Giúp bảo mật hơn, cookie không thể truy cập qua JavaScript
-            secure: process.env.NODE_ENV === 'production', // Chỉ dùng https trong môi trường production
-            maxAge: 60 * 24 * 60 * 1000, // Thời gian sống của cookie (15 phút)
-            sameSite: 'strict', // Đảm bảo cookie chỉ gửi khi request từ cùng một domain
+            httpOnly: true,
+            secure: false,  // vì HTTP không hỗ trợ cookie secure
+            maxAge: 24 * 60 * 60 * 1000,
+            sameSite: 'lax', // hoặc 'strict', hoặc 'none' + secure: true nếu HTTPS
+            path: '/',
         });
+
         console.log("Token:", token); // Log the token for debugging
         res.status(200).json({ message: "Login successful" });
     } catch (err) {

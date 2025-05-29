@@ -1,4 +1,4 @@
-// src/user/getUserPassword.ts
+// src/services/getUserPassword.ts
 import { client } from '../config/db';
 
 export async function getUserPassword(username: string): Promise<string | null> {
