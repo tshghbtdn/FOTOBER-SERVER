@@ -1,2 +1,2 @@
 export * from './registerUser';
-export * from './verifyUser';
+export * from './loginUser';

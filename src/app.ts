@@ -15,17 +15,12 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Các router khác
-import authenticationRouter from './routes/authenticationRouter';
-import jobManagementRouter from './routes/jobManagementRouter';
-import taskManagementRouter from './routes/taskManagementRouter';
-import kpiManagementRouter from './routes/kpiManagementRouter';
-import staffManagementRouter from './routes/staffManagementRouter';
+import authRouter from './routes/authRouter';
+import jobRouter from './routes/jobRouter';
 
 //Mounding routers
-app.use('/authentication', authenticationRouter);
-app.use('/job', jobManagementRouter);
-app.use('/task', taskManagementRouter);
-app.use('/kpi', kpiManagementRouter);
-app.use('/staff', staffManagementRouter);
+app.use('/auth', authRouter);
+app.use('/job', jobRouter);
+
 
 export default app;

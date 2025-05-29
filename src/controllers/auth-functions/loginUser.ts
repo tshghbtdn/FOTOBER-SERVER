@@ -11,7 +11,7 @@ if (!JWT_SECRET) {
 
 const BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS || '8');
 
-export const verifyUser = async (req: Request, res: Response): Promise<void>  => {
+export const loginUser = async (req: Request, res: Response): Promise<void>  => {
     try {
         const { username, password } = req.body;
 
