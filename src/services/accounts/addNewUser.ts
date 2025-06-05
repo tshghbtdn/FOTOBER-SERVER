@@ -1,4 +1,5 @@
-import { client } from "../config/db";
+//File: src/services/accounts/addNewUser.ts
+import { client } from "../../config/db";
 import { hash } from "bcryptjs";
 
 const BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS || '8');
@@ -7,7 +8,7 @@ if (!BCRYPT_SALT_ROUNDS) {
     throw new Error("Missing BCRYPT_SALT_ROUNDS in environment variables.");
 }
 
-export const addNewUser = async (
+export const ser_addNewUser = async (
     username: string,
     email: string,
     password: string,

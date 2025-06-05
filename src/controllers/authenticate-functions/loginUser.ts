@@ -1,7 +1,7 @@
-//src/controllers/authenticate-functions/verifyUser.ts
+//File: src/controllers/authenticate-functions/loginUser.ts
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
-import { getUserPassword, getUserId } from '../../services';
+import { ser_getUserPassword, ser_getUserId, ser_getUserRole } from '../../services/accounts';
 import jwt from 'jsonwebtoken';
 
 const JWT_SECRET = process.env.JWT_SECRET as string;
@@ -12,11 +12,11 @@ if (!JWT_SECRET) {
 
 const BCRYPT_SALT_ROUNDS = parseInt(process.env.BCRYPT_SALT_ROUNDS || '8');
 
-export const loginUser = async (req: Request, res: Response): Promise<void>  => {
+export const con_loginUser = async (req: Request, res: Response): Promise<void>  => {
     try {
         const { username, password } = req.body;
 
-        const hashedPassword = await getUserPassword(username);
+        const hashedPassword = await ser_getUserPassword(username);
         if (!hashedPassword) {
             res.status(404).json({ message: "User not found" });
             return;
@@ -28,21 +28,20 @@ export const loginUser = async (req: Request, res: Response): Promise<void>  => 
             return;
         }
 
-        const userId = await getUserId(username);
-        const payload = { userId };
+        const userId = await ser_getUserId(username);
+        if (!userId) {
+            res.status(404).json({ message: "User not found" });
+            return;
+        }
+        const role = await ser_getUserRole(userId);
+        const payload = { userId , role };
         const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '1d' });
 
-        // Gửi token trong cookie
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: false,  // vì HTTP không hỗ trợ cookie secure
-            maxAge: 24 * 60 * 60 * 1000,
-            sameSite: 'lax', // hoặc 'strict', hoặc 'none' + secure: true nếu HTTPS
-            path: '/',
-        });
+
 
         console.log("Token:", token); // Log the token for debugging
-        res.status(200).json({ message: "Login successful" });
+        
+        res.status(200).json({ message: "Login successful", token: token, role: role });
     } catch (err) {
         res.status(500).json({ message: "Internal server error" });
         console.error(err); // Log the error for debugging

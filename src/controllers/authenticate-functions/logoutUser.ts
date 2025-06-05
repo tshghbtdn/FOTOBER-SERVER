@@ -1,6 +1,7 @@
+//File: src/controllers/authenticate-functions/logoutUser.ts
 import { Request, Response } from "express";
 
-export const logoutUser = async (req: Request, res: Response): Promise<void> => {
+export const con_logoutUser = async (req: Request, res: Response): Promise<void> => {
     try {
         // Xóa cookie chứa token
         res.clearCookie('token', {

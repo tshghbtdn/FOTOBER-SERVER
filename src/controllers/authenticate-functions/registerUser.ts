@@ -1,5 +1,6 @@
+//File: src/controllers/authenticate-functions/registerUser.ts
 import { Request, Response } from "express";
-import { addNewUser } from "../../services";
+import { ser_addNewUser } from "../../services/accounts";
 
 const isPwdValid = (password: string): boolean => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
@@ -11,7 +12,7 @@ const isUsernameValid = (username: string): boolean => {
     return regex.test(username);
 }
 
-export const registerUser = async (req: Request, res: Response): Promise<void> => {
+export const con_registerUser = async (req: Request, res: Response): Promise<void> => {
     const { username, password, name, email, role} = req.body;
 
     if (!username || !password || !name || !email) {
@@ -30,7 +31,7 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
     }
 
     try{
-        await addNewUser(username, email, password, name, role);
+        await ser_addNewUser(username, email, password, name, role);
     } catch (err: any) {
         res.status(400).json({ error: err.message });
         return;

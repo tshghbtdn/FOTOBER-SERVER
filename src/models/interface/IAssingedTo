@@ -1,5 +1,0 @@
-export interface IAssignedTo {
-  manager: string; // user ID của trưởng nhóm
-  operators: string[]; // danh sách user ID người tham gia
-  monitors: string[]; // danh sách user ID người giám sát
-}

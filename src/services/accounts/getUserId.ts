@@ -1,7 +1,7 @@
-// src/user/getUserId.ts
-import { client } from '../config/db';
+//File: src/services/accounts/getUserId.ts
+import { client } from '../../config/db';
 
-export async function getUserId(username: string): Promise<string | null> {
+export async function ser_getUserId(username: string): Promise<string | null> {
   try {
     const res = await client.query(
       'SELECT id FROM users WHERE username = $1',

@@ -1,7 +1,7 @@
-// src/services/getUserPassword.ts
-import { client } from '../config/db';
+//File: src/services/accounts/getUserPassword.ts
+import { client } from '../../config/db';
 
-export async function getUserPassword(username: string): Promise<string | null> {
+export async function ser_getUserPassword(username: string): Promise<string | null> {
   try {
     const res = await client.query(
       'SELECT password FROM users WHERE username = $1',
